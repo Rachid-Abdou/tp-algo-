@@ -45,10 +45,6 @@ int main(){
     list_of_etudient[0].abonnement = 'e';
     list_of_etudient[0].pénalité = 2;
 
-    time_t seconds;
-     
-    seconds = time();
-    printf("==> %ld\n", seconds);
 
     return 0;
 }
