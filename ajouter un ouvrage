@@ -1,0 +1,46 @@
+void Ajouter_un_ouvrage(ouvrage list[1000]){
+    char f,p;
+    int  i;
+    do{
+        system("cls");
+    int flag=0;
+    printf("\n\n\n\n\n\n\n Ajout d'ouvrage \n\n\n\n\n\n\n");
+    printf("\n\n\n titre: \n\n\n");
+    scanf("%s", &ouvrage[size].titre);
+            for( i=0; i=size-1; i++){
+                if(ouvrage[size].titre==ouvrage[i].titre){
+                    flag=1;
+                    break;
+                }
+            }
+            if(flag==0){
+                printf("\n\n la cote ");
+                scanf("%l", &ouvrage[size].cote);
+                printf("\n\n le nombre que voulez vous l'ajouter ");
+                scanf("%c", &ouvrage[size].nbe_bib);
+                ++size;
+                do{
+                    printf("\n\n voulez vous l'enregistrer : (y/n) ");
+                    scanf("%s", &m);
+                    if(m=='y'||m=='Y'){
+                            printf("voulez vous un autre ouvrage");
+                            scanf("%s", &f);
+
+
+                    }
+                    else{
+                        printf("\n s'il vous plait entre y ou Y pour enregistrer vous information");
+
+                    }
+                    while(m=='n'||m=='N');
+                }
+                 if(flag!=0){
+                    printf("\n l'ouvrage existe deja ");
+                    getch();
+                }
+            }while(f=='y'||m=='Y');
+
+
+
+    }
+}
