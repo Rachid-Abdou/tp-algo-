@@ -14,7 +14,7 @@ struct person
 typedef struct ouvrage{
     int cote__;
     char titre[30];
-    int nombre_exemplaire_dans_la_bib;
+    int nombre_ouvrage;
     int nombre_exemplaires_empruntés;
 }ouvrage;
 
@@ -82,17 +82,17 @@ void Ajouter_un_etudiant(etudient list_of_etudient[] , int size) {
 }
 
 
-void Ajouter_un_ouvrage(ouvrage list[1000], int size){
+void Ajouter_un_ouvrage(ouvrage list[1000], int *p){
     char f,m;
     int  i;
-    
+    int size = *p;
     do{    
         int flag=0;
-        printf("\n\n Ajout d'un ouvrage \n\n");
+        printf("\n Ajout d'un ouvrage\n");
         printf("titre: ");
         scanf("%s", list[size].titre);
 
-        for( i=0; i>=size-1; i++){
+        for( i=0; i>size; i++){
             if(list[size].titre==list[i].titre){
                 flag=1;
                 break;
@@ -103,8 +103,8 @@ void Ajouter_un_ouvrage(ouvrage list[1000], int size){
             printf("\n la cote ");
             scanf("%d", &list[size].cote__);
             printf("\n le nombre que voulez vous l'ajouter ");
-            scanf("%d", &list[size].nombre_exemplaire_dans_la_bib);
-            size++;
+            scanf("%d", &list[size].nombre_ouvrage);
+            (*p)++;
             do{
                 printf("\n\n voulez vous l'enregistrer : (y/n) ");
                 scanf("%s", &m);
@@ -124,27 +124,42 @@ void Ajouter_un_ouvrage(ouvrage list[1000], int size){
     }while(f=='y'||m=='Y');
 }
 
+void consulter_tous_ouvrages(ouvrage list[], int size){
+    printf("\n\t List des ouvrages: \n");
+    printf("   Titre d'ouvrage \t\t Cote \t\t Nombre des ouvrages \t\t ouvrages disponible ");
+    for(int i=0; i<size; i++){
+        printf("\n%d ==> %s \t\t\t %d \t\t\t %d \t\t\t %d ", i+1, list[i].titre, list[i].cote__, list[i].nombre_ouvrage, list[i].nombre_ouvrage-list[i].nombre_exemplaires_empruntés);
+    }
+}
 
 int main(){
 
+    int size=0;
+    int *p = &size;
     ouvrage list_of_ouvrage[10000];
     etudient list_of_etudient[10000];
     emprunts_des_ouvrages list_of_emprunts[1000];
 
 
 // test function 1:
-    Ajouter_un_ouvrage(list_of_etudient , 2);
-    printf("matricule: %d\n",list_of_etudient[2].matricule);
-    printf("abonnement: %c\n",list_of_etudient[2].abonnement);
-    printf("penality: %d\n",list_of_etudient[2].penalite);
+//    Ajouter_un_etudiant(list_of_etudient , 2);
+  //  printf("matricule: %d\n",list_of_etudient[2].matricule);
+    //printf("abonnement: %c\n",list_of_etudient[2].abonnement);
+   // printf("penality: %d\n",list_of_etudient[2].penalite);
 
 // test function 2:
-    Ajouter_un_ouvrage(list_of_ouvrage , 2);    
+    Ajouter_un_ouvrage(list_of_ouvrage , &size);
+    Ajouter_un_ouvrage(list_of_ouvrage , &size);
+    Ajouter_un_ouvrage(list_of_ouvrage , &size);
+printf("size =  %d",size);
+    consulter_tous_ouvrages(list_of_ouvrage,size);
+
+/*
     printf("cote: %d\n",list_of_ouvrage[2].cote__);
     printf("titre: %s\n",list_of_ouvrage[2].titre);
-    printf("lib: %d\n",list_of_ouvrage[2].nombre_exemplaire_dans_la_bib);
+    printf("lib: %d\n",list_of_ouvrage[2].nombre_ouvrage);
     printf("no lib: %d\n",list_of_ouvrage[2].nombre_exemplaires_empruntés);
-
+*/
 
 /*
     printf("\n\n                                              bienvenue dans votre programme \n");
