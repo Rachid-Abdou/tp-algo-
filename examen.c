@@ -13,7 +13,7 @@ struct person
 
 typedef struct ouvrage{
     int cote__;
-    char titre[30];
+    char titre[50];
     int nombre_ouvrage;
     int nombre_exemplaires_empruntés;
 }ouvrage;
@@ -38,18 +38,19 @@ typedef struct emprunts_des_ouvrages {
 }emprunts_des_ouvrages;
 
 
-void Ajouter_un_etudiant(etudient list_of_etudient[] , int size) {
+                        // =================== function 1 ======================== //
+void Ajouter_un_etudiant(etudient list[] , int *p) {
     char f,m;
-    int i;
-
+    int size = *p, i;
+    
     do{
         int flag=0;
-        printf("\n\t\t\t\t Ajout d'un etudiant\n\t\t\t\t~~~~~~~~~~~~~~~~~~~~~");
+        printf("\n\t Ajout d'un etudiant\n\t~~~~~~~~~~");
         printf("\n\tLe matricule d'etudiant  ");
-        scanf("%d", &list_of_etudient[size].matricule);
-        printf("\t~~~~~~~~~~~~~~~~");
-        for(i=0; i>=size-1; i++){
-            if(list_of_etudient[size].matricule==list_of_etudient[i].matricule){
+        scanf("%d", &list[size].matricule);
+
+        for(i=0; i<size; i++){
+            if(list[size].matricule==list[i].matricule){
                 flag=1;
                 break;
             }
@@ -57,16 +58,16 @@ void Ajouter_un_etudiant(etudient list_of_etudient[] , int size) {
 
         if(flag==0){
             printf("\n\t preciser le type d'abonnement d'etudiant (p:pour le type premium || c:pour le type classic) ");
-            scanf("%s", &list_of_etudient[size].abonnement);
+            scanf("%s", &list[size].abonnement);
             printf("\n\t entrer le nombre des penalites");
-            scanf("%d", &list_of_etudient[size].penalite);
-            size++;
+            scanf("%d", &list[size].penalite);
+            (*p)++;
 
             do{
                 printf("\n voulez vous l'enregistrer : (y/n) ");
                 scanf("%s", &m);
                 if(m=='y'||m=='Y'){
-                        printf("voulez vous un autre etudiant \n");
+                        printf("voulez vous un autre etudiant: ");
                         scanf("%s", &f);
                 }
                 else{
@@ -74,14 +75,17 @@ void Ajouter_un_etudiant(etudient list_of_etudient[] , int size) {
                 }
             }while(m=='n'||m=='N');
             
-            if(flag!=0){
-                printf("\n l'etudiant existe deja \n"); 
-            }
         }
+        else if(flag!=0){
+            printf("\n l'etudiant existe deja \n"); 
+            f = 'n';
+        }
+
     }while(f=='y'||m=='Y');
 }
 
 
+                        // =================== function 2 ======================== //
 void Ajouter_un_ouvrage(ouvrage list[1000], int *p){
     char f,m;
     int  i;
@@ -92,9 +96,10 @@ void Ajouter_un_ouvrage(ouvrage list[1000], int *p){
         printf("titre: ");
         scanf("%s", list[size].titre);
 
-        for( i=0; i>size; i++){
-            if(list[size].titre==list[i].titre){
+        for( i=0; i<size; i++){
+            if(strcmp(list[size].titre, list[i].titre)==0){
                 flag=1;
+                printf("\nil existe\n");
                 break;
             }
         }
@@ -109,21 +114,23 @@ void Ajouter_un_ouvrage(ouvrage list[1000], int *p){
                 printf("\n\n voulez vous l'enregistrer : (y/n) ");
                 scanf("%s", &m);
                 if(m=='y'||m=='Y'){
-                        printf("voulez vous un autre ouvrage");
+                        printf("voulez vous un autre ouvrage: ");
                         scanf("%s", &f);
                 }
                 else{
                     printf("\n s'il vous plait entre y ou Y pour enregistrer l'information");
                 }
             }while(m=='n'||m=='N');
-
-            if(flag!=0){
-                printf("\n l'ouvrage existe deja ");
-            }
         }    
+
+        else if(flag!=0){
+            printf("\n l'ouvrage existe deja ");
+        }
     }while(f=='y'||m=='Y');
 }
 
+
+                        // =================== function 5 ======================== //
 void consulter_tous_ouvrages(ouvrage list[], int size){
     printf("\n\t List des ouvrages: \n");
     printf("   Titre d'ouvrage \t\t Cote \t\t Nombre des ouvrages \t\t ouvrages disponible ");
@@ -131,6 +138,36 @@ void consulter_tous_ouvrages(ouvrage list[], int size){
         printf("\n%d ==> %s \t\t\t %d \t\t\t %d \t\t\t %d ", i+1, list[i].titre, list[i].cote__, list[i].nombre_ouvrage, list[i].nombre_ouvrage-list[i].nombre_exemplaires_empruntés);
     }
 }
+
+
+                        // =================== function 10 ======================== //
+void suppprimer_ouvrage(ouvrage list[1000], int *p){
+    int size = *p, flag=0, i;
+    char sup_ouvrage[50];
+
+    printf("\n\ninput your book title: ");
+    scanf("%s", sup_ouvrage);
+
+    for(i=0; i<=size-1; i++){
+            if(strcmp(list[i].titre,sup_ouvrage)==0){
+                flag=1;
+                break;
+            }
+    }
+
+    if(flag == 1){
+        while(i<size){
+            list[i] = list[i+1];
+            i++;
+        }
+        (*p)--;
+        printf("OK\n");
+    }
+    else if(flag==0){
+        printf("\n ce ouvrege n'exist pas.\n");
+    }
+}
+
 
 int main(){
 
@@ -148,11 +185,23 @@ int main(){
    // printf("penality: %d\n",list_of_etudient[2].penalite);
 
 // test function 2:
+    Ajouter_un_etudiant(list_of_etudient , &size);
+    Ajouter_un_etudiant(list_of_etudient , &size);
+
+/*
     Ajouter_un_ouvrage(list_of_ouvrage , &size);
     Ajouter_un_ouvrage(list_of_ouvrage , &size);
     Ajouter_un_ouvrage(list_of_ouvrage , &size);
-printf("size =  %d",size);
+printf("\nsize =  %d\n",size);
+
     consulter_tous_ouvrages(list_of_ouvrage,size);
+
+    suppprimer_ouvrage(list_of_ouvrage , &size);
+
+    consulter_tous_ouvrages(list_of_ouvrage,size);
+
+//printf("\n%d\n",strcmp("asdf","asdsf"));
+*/
 
 /*
     printf("cote: %d\n",list_of_ouvrage[2].cote__);
@@ -166,26 +215,31 @@ printf("size =  %d",size);
     printf("================================================================================================================\n\n");
     printf("                                             !!comment nous pouvons t'aider!!\n\n");
     printf("1==>Ajouter des ouvrages \n");
-    printf("2==>Consulter la liste de tous les ouvrages \n");
-    printf("3==>Supprimer un ouvrage \n");
-    printf("4==>Vérifier la disponibilité des exemplaires \n");
-    printf("5==>Ajouter des étudiants \n");
+    printf("2==>Ajouter des étudiants \n");
+    printf("3==>Ajouter des emprunts \n");
+    printf("4==>Ajouter une pénalité \n");
+
+    printf("5==>Consulter la liste de tous les ouvrages \n");
     printf("6==>Consulter un membre \n");
-    printf("7==>Supprimer un membre \n");
-    printf("8==>Modifier un membre \n");
-    printf("9==>Ajouter des emprunts \n");
-    printf("10==>Consulter un emprunt \n");
-    printf("11==>Supprimer un emprunt \n");
-    printf("12==>Modifier un emprunt \n");
-    printf("13==>Retourner un emprunt \n");
-    printf("14==>Ajouter une pénalité \n");
-    printf("15==>Supprimer une pénalité \n");
-    printf("16==>Consulter la liste des pénalités \n");
-    printf("17==>Définir la durée des emprunts \n");
-    printf("18==>Définir le maximum d’ouvrage à emprunter \n");
+    printf("7==>Consulter un emprunt \n");
+    printf("8==>Consulter la liste des pénalités \n");
+    
+    printf("9==>Vérifier la disponibilité des exemplaires \n");
+    
+    printf("10==>Supprimer un ouvrage \n");
+    printf("11==>Supprimer un membre \n");
+    printf("12==>Supprimer un emprunt \n");
+    printf("13==>Supprimer une pénalité \n");
+    
+    printf("14==>Modifier un membre \n");
+    printf("15==>Modifier un emprunt \n");
+    
+    printf("16==>Définir la durée des emprunts \n");
+    printf("17==>Définir le maximum d’ouvrage à emprunter \n");
+
+    printf("18==>Retourner un emprunt \n");
+
     printf("19====Pour quitter le programme\n\n");
-
-
 
 
 */
@@ -220,6 +274,9 @@ printf("size =  %d",size);
 
     return 0;
 }
+
+
+
 
 
 
